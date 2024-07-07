@@ -4,11 +4,11 @@ import app from '../src/server'; // Adjust the path as per your project structur
 describe('Auth Tests', () => {
   it('should register user successfully with default organisation', async () => {
     const userData = {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'johndoe@example.com',
-      password: 'password123',
-      phone: '1234567890',
+      firstName: 'lee',
+      lastName: 'De3',
+      email: 'dn3@gmail.com',
+      password: 'passwor3',
+      phone: '1234567561',
     };
 
     const res = await request(app)
@@ -21,20 +21,21 @@ describe('Auth Tests', () => {
     expect(res.body.message).toBe('Registration successful');
     expect(res.body.data.accessToken).toBeDefined();
     expect(res.body.data.user).toBeDefined();
-    expect(res.body.data.user.firstName).toBe('John');
-    expect(res.body.data.user.lastName).toBe('Doe');
-    expect(res.body.data.user.email).toBe('deosun@gmail.com');
-    expect(res.body.data.user.phone).toBe('1234567890');
+    expect(res.body.data.user.firstName).toBe('lee');
+    expect(res.body.data.user.lastName).toBe('Dee');
+    expect(res.body.data.user.email).toBe('dn3@gmail.com');
+    expect(res.body.data.user.phone).toBe('1234567561');
     // Check default organisation name
+    
+    expect(res.body.data.user.organization.name).toBe("Jh's Organisation");
     expect(res.body.data.organisation).toBeDefined();
-    expect(res.body.data.user.organization.name).toBe("John's Organisation");
   });
 });
 
 it('should log in user successfully', async () => {
   const credentials = {
-    email: 'johndoe@example.com',
-    password: 'password123',
+    email: 'dn@gmail.com',
+    password: 'password3',
   };
 
   const res = await request(app)
@@ -47,10 +48,10 @@ it('should log in user successfully', async () => {
   expect(res.body.message).toBe('Login successful');
   expect(res.body.data.accessToken).toBeDefined();
   expect(res.body.data.user).toBeDefined();
-  expect(res.body.data.user.firstName).toBe('John');
-  expect(res.body.data.user.lastName).toBe('Doe');
-  expect(res.body.data.user.email).toBe('johndoe@example.com');
-  expect(res.body.data.user.phone).toBe('1234567890');
+  expect(res.body.data.user.firstName).toBe('Jh');
+  expect(res.body.data.user.lastName).toBe('De');
+  expect(res.body.data.user.email).toBe('dn@gmail.com');
+  expect(res.body.data.user.phone).toBe('1234567560');
 });
 it('should fail if firstName is missing', async () => {
   const userData = {
@@ -87,5 +88,3 @@ it('should fail if email is already in use', async () => {
   expect(res.body.status).toBe('Bad request');
   expect(res.body.message).toBe('Email already in use');
 });
-
-
