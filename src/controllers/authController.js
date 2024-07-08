@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import userSchema from "../schema/userSchema.js";
 import { generateVerificationToken } from "../services/verificationToken.js";
 import { sendVerificationEmail } from "../services/emailvalidation.js";
+import { generateToken } from "../middleware/auth.js";
 import db from "../database/db.js"
 import dotenv from "dotenv";
 dotenv.config();
@@ -139,7 +140,10 @@ export const login = async (req, res) => {
       });
     }
 
-    const accessToken = jwt.sign({ userId: user.userId, email: user.email }, process.env.BATTLE_GROUND, { expiresIn: "24h" });
+    const accessToken = generateToken({
+      userId: user.userId,
+      email: user.email,
+    });
 
     return res.status(200).json({
       status: "success",

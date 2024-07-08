@@ -38,29 +38,19 @@ export const getOrganisations = async (req, res) => {
 
 export const getOrganisationById = async (req, res) => {
   try {
-    const userId = req.user.userId;
     const { orgId } = req.params;
 
-    if (!userId || !orgId) {
+    if (!orgId) {
       return res.status(400).json({
         status: "error",
-        message: "User ID or Organisation ID is missing",
+        message: "Organisation ID is missing",
       });
     }
 
-    console.log("Fetching organisation with orgId:", orgId, "for userId:", userId);
-
-    const organisation = await db("organisations")
-      .select("organisations.orgId", "organisations.name", "organisations.description")
-      .join("users_organisation", "organisations.orgId", "users_organisation.orgId")
-      .where({
-        "organisations.orgId": orgId,
-        "users_organisation.userId": userId
-      })
-      .first();
+    // Assuming db is your Knex instance configured for database operations
+    const organisation = await db("organisations").where({ orgId }).first();
 
     if (!organisation) {
-      console.log("Organisation not found for orgId:", orgId, "and userId:", userId);
       return res.status(404).json({
         status: "error",
         message: "Organisation not found",
@@ -70,7 +60,11 @@ export const getOrganisationById = async (req, res) => {
     res.status(200).json({
       status: "success",
       message: "Organisation retrieved successfully",
-      data: organisation,
+      data: {
+        orgId: organisation.orgId,
+        name: organisation.name,
+        description: organisation.description,
+      },
     });
   } catch (error) {
     console.error("Error fetching organisation:", error.message);
@@ -81,6 +75,53 @@ export const getOrganisationById = async (req, res) => {
     });
   }
 };
+
+
+// export const getOrganisationById = async (req, res) => {
+//   try {
+//     const userId = req.user.userId;
+//     const { orgId } = req.params;
+
+//     if (!userId || !orgId) {
+//       return res.status(400).json({
+//         status: "error",
+//         message: "User ID or Organisation ID is missing",
+//       });
+//     }
+
+//     console.log("Fetching organisation with orgId:", orgId, "for userId:", userId);
+
+//     const organisation = await db("organisations")
+//       .select("organisations.orgId", "organisations.name", "organisations.description")
+//       .join("users_organisation", "organisations.orgId", "users_organisation.orgId")
+//       .where({
+//         "organisations.orgId": orgId,
+//         "users_organisation.userId": userId
+//       })
+//       .first();
+
+//     if (!organisation) {
+//       console.log("Organisation not found for orgId:", orgId, "and userId:", userId);
+//       return res.status(404).json({
+//         status: "error",
+//         message: "Organisation not found",
+//       });
+//     }
+
+//     res.status(200).json({
+//       status: "success",
+//       message: "Organisation retrieved successfully",
+//       data: organisation,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching organisation:", error.message);
+//     res.status(500).json({
+//       status: "error",
+//       message: "An error occurred while fetching the organisation",
+//       error: error.message,
+//     });
+//   }
+// };
 
 export const createOrganisation = async (req, res) => {
   try {

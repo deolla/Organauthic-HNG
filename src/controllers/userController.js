@@ -12,6 +12,7 @@ export const getUsers = async (req, res) => {
   } catch (err) {
     console.error(`Error fetching Users: ${err}`);
     res.status(500).json({
+      status: 'error',
       message: "Error getting users",
       error: err.message,
     });
@@ -65,79 +66,69 @@ export const getuserInfoById = async (req, res) => {
 };
 
 
-
-
-// export const getUserById2 = async (req, res) => {
+// export const deleteUserById = async (req, res) => {
 //   const { id } = req.params;
-//   if (!id) return res.status(400).json({ message: 'User ID is required' });
-  
 //   try {
-//       const user = await db('users').where('userId', id).first();
-//       if (!user) {
+//       const existingUser = await db('users').where('id', id).first();
+//       if (!existingUser) {
 //           return res.status(404).json({ message: 'User not found' });
 //       }
-//       return res.status(200).json(user);
+
+//       if (existingUser.userId !== req.user.userId) {
+//         return res.status(403).json({
+//           message: 'You are not authorized to delete this user'
+//         });
+//       }
+
+//       await db('users').where('id', id).delete();
+//       return res.status(200).json({ message: 'User deleted successfully' });
 //   } catch (err) {
-//       console.error(`Error fetching User: ${err}`);
+//       console.error(`Error deleting User: ${err}`);
 //       return res.status(500).json({
-//           message: 'Error getting user',
+//           message: 'Error deleting user',
 //           error: err.message
 //       });
 //   }
 // };
-  
 
-export const deleteUserById = async (req, res) => {
-  const { id } = req.params;
-  try {
-      const existingUser = await db('users').where('id', id).first();
-      if (!existingUser) {
-          return res.status(404).json({ message: 'User not found' });
-      }
+// export const updateUser = async (req, res) => {
+//   const { id } = req.params;
+//   const { firstName, lastName, email, password, phone } = req.body;
 
-      await db('users').where('id', id).delete();
-      return res.status(200).json({ message: 'User deleted successfully' });
-  } catch (err) {
-      console.error(`Error deleting User: ${err}`);
-      return res.status(500).json({
-          message: 'Error deleting user',
-          error: err.message
-      });
-  }
-};
+//   try {
+//       const existingUser = await db('users').where('id', id).first();
+//       if (!existingUser) {
+//           return res.status(404).json({ message: 'User not found' });
+//       }
 
-export const updateUser = async (req, res) => {
-  const { id } = req.params;
-  const { firstName, lastName, email, password, phone } = req.body;
+//       if (existingUser.userId !== req.user.userId) {
+//         return res.status(403).json({
+//           message: 'You are not authorized to update this user'
+//         });
+//       }
 
-  try {
-      const existingUser = await db('users').where('id', id).first();
-      if (!existingUser) {
-          return res.status(404).json({ message: 'User not found' });
-      }
+//       // Prepare the update object with only defined properties
+//       const updateObject = {};
+//       if (firstName) updateObject.firstName = firstName;
+//       if (lastName) updateObject.lastName = lastName;
+//       if (email) updateObject.email = email;
+//       if (password) updateObject.password = password;
+//       if (phone) updateObject.phone = phone;
 
-      // Prepare the update object with only defined properties
-      const updateObject = {};
-      if (firstName) updateObject.firstName = firstName;
-      if (lastName) updateObject.lastName = lastName;
-      if (email) updateObject.email = email;
-      if (password) updateObject.password = password;
-      if (phone) updateObject.phone = phone;
+//       // Perform the update
+//       await db('users').where('id', id).update(updateObject);
 
-      // Perform the update
-      await db('users').where('id', id).update(updateObject);
-
-      // Fetch and return the updated user
-      const updatedUser = await db('users').where('id', id).first();
-      return res.status(200).json(updatedUser);
-  } catch (err) {
-      console.error(`Error updating User: ${err}`);
-      return res.status(500).json({
-          message: 'Error updating user',
-          error: err.message
-      });
-  }
-};
+//       // Fetch and return the updated user
+//       const updatedUser = await db('users').where('id', id).first();
+//       return res.status(200).json(updatedUser);
+//   } catch (err) {
+//       console.error(`Error updating User: ${err}`);
+//       return res.status(500).json({
+//           message: 'Error updating user',
+//           error: err.message
+//       });
+//   }
+// };
 
 
 

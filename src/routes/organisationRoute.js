@@ -7,7 +7,7 @@ const router = express.Router();
 // Route to get organisations (protected)
 router.get('/organisations', authenticate, getOrganisations);
 router.get('/organisations/:orgId', authenticate, getOrganisationById);
-router.put('/organisations', authenticate, createOrganisation);
+router.post('/organisations', authenticate, createOrganisation);
 router.post('/organisations/:orgId/users', authenticate, addUserToOrganisation);
 
 

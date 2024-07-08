@@ -46,5 +46,16 @@ module.exports ={
     seeds: {
       directory: path.join(__dirname, 'seeds'),
     },
-}
+  },
+  production: {
+    client: "pg",
+    connectionString: 'postgresql://deolla:Xl6kivRdgf7h0IlUaatU0pzPzIV1khfG@dpg-cq5gmrmehbks73bp19ng-a/db_6bcd',
+    ssl : { rejectUnauthorized: false },
+    migrations: {
+      directory: path.join(__dirname, 'migrations'),
+    },
+    seeds: {
+      directory: path.join(__dirname, 'seeds'),
+    },
+  }
 };

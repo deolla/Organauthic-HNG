@@ -21,7 +21,21 @@ export const authenticate = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (error) {
-        console.error('Token verification failed:', error);
+        console.error('Invalid token for user:', req.user, 'Error:', error.message);
         return res.status(401).json({ message: 'Invalid token' });
     }
+};
+
+export const generateToken = (user) => {
+  const payload = {
+    userId: user.userId,
+    email: user.email,
+    // Add other relevant data
+  };
+
+  const options = {
+    expiresIn: '1h', // Token expires in 1 hour
+  };
+
+  return jwt.sign(payload, process.env.JWT_SECRET, options);
 };
