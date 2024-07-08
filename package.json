@@ -2,7 +2,7 @@
   "name": "organauthic-hng",
   "version": "1.0.0",
   "description": "User Authentication and Organisation",
-  "main": "./src/server.js",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
     "test": "jest",
