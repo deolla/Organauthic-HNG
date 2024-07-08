@@ -8,6 +8,7 @@
     "test": "jest",
     "start": "node dist/server.js",
     "build": "esbuild src/server.js --bundle --outfile=dist/server.js --platform=node",
+    "dev": "nodemon src/server.js",
     "migrate": "knex migrate:latest",
     "migrate:latest": "knex migrate:latest --knexfile src/database/knexfile.cjs --env production",
     "seed:make": "knex seed:make --knexfile src/database/knexfile.cjs --env development",
