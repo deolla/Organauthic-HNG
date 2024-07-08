@@ -48,9 +48,15 @@ module.exports ={
     },
   },
   production: {
-    client: "pg",
-    connectionString: 'postgresql://deolla:Xl6kivRdgf7h0IlUaatU0pzPzIV1khfG@dpg-cq5gmrmehbks73bp19ng-a/db_6bcd',
-    ssl : { rejectUnauthorized: false },
+    client: 'pg',
+    connection: {
+      connectionString: process.env.DATABASE_URL1,
+      host: 'aws-0-eu-central-1.pooler.supabase.com',
+      port: 6543,
+      database: 'postgres',
+      password: process.env.PASS,
+      ssl : { rejectUnauthorized: false }
+    },
     migrations: {
       directory: path.join(__dirname, 'migrations'),
     },
